@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pdv-api-postgres
+    environment:
+      POSTGRES_DB: pdvapi
+      POSTGRES_USER: pdvapi
+      POSTGRES_PASSWORD: pdvapi
+    ports:
+      - "5432:5432"
+    volumes:
+      - pdv-api-data:/var/lib/postgresql/data
+
+volumes:
+  pdv-api-data:

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: pdv-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pdvapi
+    username: pdvapi
+    password: pdvapi
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-change-me-this-must-be-at-least-32-chars-long}
+    expiration-minutes: 60
