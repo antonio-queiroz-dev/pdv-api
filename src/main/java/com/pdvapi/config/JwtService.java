@@ -58,6 +58,5 @@ public class JwtService {
 
     private SecretKey signingKey() {
         return Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8));
-
     }
 }

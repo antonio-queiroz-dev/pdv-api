@@ -21,6 +21,7 @@ public class CategoryService {
     public CategoryResponse create(CategoryRequest request) {
         UUID tenantId = TenantContext.get();
 
+        // verifica se a categoria já existe no tenant atual
         Optional<Category> existing = categoryRepository.findByTenantIdAndNameIgnoreCase(tenantId, request.name());
         if (existing.isPresent()) {
             Category category = existing.get();

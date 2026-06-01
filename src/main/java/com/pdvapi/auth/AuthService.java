@@ -29,9 +29,13 @@ public class AuthService {
             throw new EmailAlreadyExistsException(request.email());
         }
 
+        // cria tenant
         Tenant tenant = tenantRepository.save(Tenant.create(request.companyName()));
+        // busca o maior code e soma 1
         int code = userRepository.findMaxCodeByTenantId(tenant.getId()) + 1;
+        // codifica password
         String encodedPassword = passwordEncoder.encode(request.password());
+        // cria user com role ADMIN
         User user = userRepository.save(
                 User.create(tenant.getId(), code, request.userName(), request.email(), encodedPassword, Role.ADMIN)
         );

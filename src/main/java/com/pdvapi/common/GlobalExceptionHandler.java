@@ -23,6 +23,36 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiError.of(ex.getMessage()));
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ApiError> handleCategoryNotFound(CategoryNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(CategoryNameAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleCategoryNameAlreadyExists(CategoryNameAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UnitNotFoundException.class)
+    public ResponseEntity<ApiError> handleUnitNotFound(UnitNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UnitNameAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleUnitNameAlreadyExists(UnitNameAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ApiError> handleProductNotFound(ProductNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(ProductBarcodeAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleProductBarcodeAlreadyExists(ProductBarcodeAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
