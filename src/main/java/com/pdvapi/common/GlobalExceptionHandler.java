@@ -1,5 +1,7 @@
 package com.pdvapi.common;
 
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -12,6 +14,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ApiError> handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
@@ -53,6 +57,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
     }
 
+    @ExceptionHandler(MovementNotFoundException.class)
+    public ResponseEntity<ApiError> handleMovementNotFound(MovementNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ApiError> handleInsufficientStock(InsufficientStockException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(MovementNotCancellableException.class)
+    public ResponseEntity<ApiError> handleMovementNotCancellable(MovementNotCancellableException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidMovementTypeException.class)
+    public ResponseEntity<ApiError> handleInvalidMovementType(InvalidMovementTypeException ex) {
+        return ResponseEntity.badRequest().body(ApiError.of(ex.getMessage()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -60,5 +84,17 @@ public class GlobalExceptionHandler {
             errors.put(fe.getField(), fe.getDefaultMessage());
         }
         return ResponseEntity.badRequest().body(ApiError.validation(errors));
+    }
+
+    @ExceptionHandler({PropertyReferenceException.class, InvalidDataAccessApiUsageException.class})
+    public ResponseEntity<ApiError> handleInvalidQueryParam(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> handleGeneric(Exception ex) {
+        log.error("Unhandled exception", ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiError.of("Internal server error"));
     }
 }

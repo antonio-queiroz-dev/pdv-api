@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Notas de estudo privadas (NUNCA commitar) ###
+estudo-privado/
+*.privado.md
