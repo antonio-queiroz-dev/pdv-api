@@ -52,6 +52,7 @@ public class CategoryService {
         Category category = categoryRepository.findByIdAndTenantId(id, tenantId)
                 .orElseThrow(() -> new CategoryNotFoundException(id));
 
+        // verifica se o nome da categoria já existe no tenant atual
         if (!category.getName().equalsIgnoreCase(request.name())
                 && categoryRepository.existsByTenantIdAndNameIgnoreCaseAndActiveTrue(tenantId, request.name())) {
             throw new CategoryNameAlreadyExistsException(request.name());
