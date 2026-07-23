@@ -48,7 +48,7 @@ public class StockService {
         UUID tenantId = TenantContext.get();
         UUID operatorId = currentOperatorId();
 
-        //
+        // cria uma lista de movimentações de estoque
         List<StockMovementResponse> movements = new ArrayList<>();
         for (StockItemRequest item : request.items()) {
             // verifica se o produto existe e está ativo.
