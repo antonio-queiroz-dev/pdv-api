@@ -77,6 +77,31 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiError.of(ex.getMessage()));
     }
 
+    @ExceptionHandler(SaleNotFoundException.class)
+    public ResponseEntity<ApiError> handleSaleNotFound(SaleNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(SaleAlreadyCancelledException.class)
+    public ResponseEntity<ApiError> handleSaleAlreadyCancelled(SaleAlreadyCancelledException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(PaymentMismatchException.class)
+    public ResponseEntity<ApiError> handlePaymentMismatch(PaymentMismatchException ex) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidDiscountException.class)
+    public ResponseEntity<ApiError> handleInvalidDiscount(InvalidDiscountException ex) {
+        return ResponseEntity.badRequest().body(ApiError.of(ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidAmountTenderedException.class)
+    public ResponseEntity<ApiError> handleInvalidAmountTendered(InvalidAmountTenderedException ex) {
+        return ResponseEntity.badRequest().body(ApiError.of(ex.getMessage()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
